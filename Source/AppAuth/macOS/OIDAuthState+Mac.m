@@ -29,32 +29,32 @@
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
                              presentingWindow:(NSWindow *)presentingWindow
-                                     callback:(OIDAuthStateAuthorizationCallback)callback {
+                                     completion:(OIDAuthStateAuthorizationCallback)callback {
   OIDExternalUserAgentMac *externalUserAgent = [[OIDExternalUserAgentMac alloc] initWithPresentingWindow:presentingWindow];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
-                                                callback:callback];
+                                              completion:callback];
 }
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
                              presentingWindow:(NSWindow *)presentingWindow
                       prefersEphemeralSession:(BOOL)prefersEphemeralSession
-                                     callback:(OIDAuthStateAuthorizationCallback)callback {
+                                     completion:(OIDAuthStateAuthorizationCallback)callback {
   OIDExternalUserAgentMac *externalUserAgent =
       [[OIDExternalUserAgentMac alloc] initWithPresentingWindow:presentingWindow
                                         prefersEphemeralSession:prefersEphemeralSession];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
-                                                callback:callback];
+                                              completion:callback];
 }
 
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                                     callback:(OIDAuthStateAuthorizationCallback)callback {
+                                     completion:(OIDAuthStateAuthorizationCallback)callback {
   OIDExternalUserAgentMac *externalUserAgent = [[OIDExternalUserAgentMac alloc] init];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
-                                                callback:callback];
+                                              completion:callback];
 }
 
 @end

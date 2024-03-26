@@ -1,4 +1,4 @@
-/*! @file OIDAuthState+IOS.m
+/*! @file OIDAuthState+Vision.m
     @brief AppAuth iOS SDK
     @copyright
         Copyright 2016 Google Inc. All Rights Reserved.
@@ -18,61 +18,44 @@
 
 #import <TargetConditionals.h>
 
-#if TARGET_OS_IOS || TARGET_OS_MACCATALYST
+#if TARGET_OS_VISION
 
-#import "OIDAuthState+IOS.h"
-#import "OIDExternalUserAgentIOS.h"
-#import "OIDExternalUserAgentCatalyst.h"
+#import "OIDAuthState+Vision.h"
+#import "OIDExternalUserAgentVision.h"
 
-@implementation OIDAuthState (IOS)
+@implementation OIDAuthState (Vision)
 
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                     presentingViewController:(UIViewController *)presentingViewController
-                                     completion:(OIDAuthStateAuthorizationCallback)callback {
-  id<OIDExternalUserAgent> externalUserAgent;
-#if TARGET_OS_MACCATALYST
-  externalUserAgent = [[OIDExternalUserAgentCatalyst alloc]
-      initWithPresentingViewController:presentingViewController];
-#else // TARGET_OS_MACCATALYST
-  externalUserAgent = [[OIDExternalUserAgentIOS alloc] initWithPresentingViewController:presentingViewController];
-#endif // TARGET_OS_MACCATALYST
+                             presentingWindow:(UIWindow *)presentingWindow
+                                   completion:(OIDAuthStateAuthorizationCallback)callback {
+    OIDExternalUserAgentVision *externalUserAgent = [[OIDExternalUserAgentVision alloc] initWithPresentingWindow:presentingWindow];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
                                               completion:callback];
 }
-
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                     presentingViewController:(UIViewController *)presentingViewController
+                             presentingWindow:(UIWindow *)presentingWindow
                       prefersEphemeralSession:(BOOL)prefersEphemeralSession
-                                     completion:(OIDAuthStateAuthorizationCallback)callback {
-  id<OIDExternalUserAgent> externalUserAgent;
-#if TARGET_OS_MACCATALYST
-  externalUserAgent = [[OIDExternalUserAgentCatalyst alloc]
-          initWithPresentingViewController:presentingViewController
-                   prefersEphemeralSession:prefersEphemeralSession];
-#else // TARGET_OS_MACCATALYST
-  externalUserAgent = [[OIDExternalUserAgentIOS alloc]
-          initWithPresentingViewController:presentingViewController
-                   prefersEphemeralSession:prefersEphemeralSession];
-#endif // TARGET_OS_MACCATALYST
+                                   completion:(OIDAuthStateAuthorizationCallback)callback {
+    OIDExternalUserAgentVision *externalUserAgent =
+      [[OIDExternalUserAgentVision alloc] initWithPresentingWindow:presentingWindow
+                                        prefersEphemeralSession:prefersEphemeralSession];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
                                               completion:callback];
 }
 
-#if !TARGET_OS_MACCATALYST
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                                  completion:(OIDAuthStateAuthorizationCallback)callback {
-  OIDExternalUserAgentIOS *externalUserAgent = [[OIDExternalUserAgentIOS alloc] init];
+                                   completion:(OIDAuthStateAuthorizationCallback)callback {
+    OIDExternalUserAgentVision *externalUserAgent = [[OIDExternalUserAgentVision alloc] init];
   return [self authStateByPresentingAuthorizationRequest:authorizationRequest
                                        externalUserAgent:externalUserAgent
                                               completion:callback];
 }
-#endif // !TARGET_OS_MACCATALYST
 
 @end
 
-#endif // TARGET_OS_IOS || TARGET_OS_MACCATALYST
+#endif // TARGET_OS_OSX

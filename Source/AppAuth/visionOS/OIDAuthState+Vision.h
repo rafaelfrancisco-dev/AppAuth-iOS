@@ -1,4 +1,4 @@
-/*! @file OIDAuthState+Mac.h
+/*! @file OIDAuthState+Vision.h
     @brief AppAuth iOS SDK
     @copyright
         Copyright 2016 Google Inc. All Rights Reserved.
@@ -18,16 +18,17 @@
 
 #import <TargetConditionals.h>
 
-#if TARGET_OS_OSX
+#if TARGET_OS_VISION
 
-#import <AppKit/AppKit.h>
+#import <UIKit/UIKit.h>
+
 #import "OIDAuthState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*! @brief macOS specific convenience methods for @c OIDAuthState.
+/*! @brief visionOS specific convenience methods for @c OIDAuthState.
  */
-@interface OIDAuthState (Mac)
+@interface OIDAuthState (Vision)
 
 /*! @brief Convenience method to create a @c OIDAuthState by presenting an authorization request
         and performing the authorization code exchange in the case of code flow requests. For
@@ -41,12 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
     @return A @c OIDExternalUserAgentSession instance which will terminate when it
         receives a @c OIDExternalUserAgentSession.cancel message, or after processing a
         @c OIDExternalUserAgentSession.resumeExternalUserAgentFlowWithURL: message.
-    @discussion This method adopts @c ASWebAuthenticationSession for macOS 10.15 and above or the
-        default browser otherwise.
  */
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                             presentingWindow:(NSWindow *)presentingWindow
+                             presentingWindow:(UIWindow *)presentingWindow
                                      completion:(OIDAuthStateAuthorizationCallback)callback;
 
 /*! @brief Convenience method to create a @c OIDAuthState by presenting an authorization request
@@ -67,10 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
-                             presentingWindow:(NSWindow *)presentingWindow
+                             presentingWindow:(UIWindow *)presentingWindow
                       prefersEphemeralSession:(BOOL)prefersEphemeralSession
-                                     completion:(OIDAuthStateAuthorizationCallback)callback
-    API_AVAILABLE(macos(10.15));
+                                     completion:(OIDAuthStateAuthorizationCallback)callback;
 
 /*! @param authorizationRequest The authorization request to present.
     @param callback The method called when the request has completed or failed.
@@ -82,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (id<OIDExternalUserAgentSession>)
     authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest *)authorizationRequest
                                      completion:(OIDAuthStateAuthorizationCallback)callback
-    __deprecated_msg("For macOS 10.15 and above please use "
+    __deprecated_msg("For visionOS 1.0 and above please use "
         "authStateByPresentingAuthorizationRequest:presentingWindow:callback:");
 
 @end
